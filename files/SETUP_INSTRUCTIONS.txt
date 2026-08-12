@@ -1,0 +1,152 @@
+SETUP INSTRUCTIONS — Potato Leaf Disease Classifier App
+==========================================================
+
+You already have:
+  D:\Flutter\potato_disease_app   (created via `flutter create potato_disease_app`)
+
+Follow these steps in order.
+
+
+STEP 1 — Replace / add files in your project
+----------------------------------------------
+
+From this download, copy files to these EXACT locations:
+
+  pubspec.yaml
+    -> D:\Flutter\potato_disease_app\pubspec.yaml
+    (REPLACE the existing file)
+
+  main.dart
+    -> D:\Flutter\potato_disease_app\lib\main.dart
+    (REPLACE the existing file — it's inside the "lib" folder)
+
+  classifier.dart
+    -> D:\Flutter\potato_disease_app\lib\classifier.dart
+    (NEW file, goes in the same "lib" folder as main.dart)
+
+  labels.txt
+    -> D:\Flutter\potato_disease_app\assets\labels.txt
+    (NEW — you need to CREATE the "assets" folder first)
+
+
+STEP 2 — Add your model file
+-------------------------------
+
+Copy the .onnx file you downloaded from Colab
+(potato_model_fp16.onnx) into:
+
+  D:\Flutter\potato_disease_app\assets\potato_model_fp16.onnx
+
+After this step, your assets folder should contain exactly:
+
+  D:\Flutter\potato_disease_app\assets\potato_model_fp16.onnx
+  D:\Flutter\potato_disease_app\assets\labels.txt
+
+
+STEP 3 — Add camera permission (Android)
+-------------------------------------------
+
+Open the file ANDROID_SETUP.txt from this download and follow
+the instructions inside — it tells you exactly which line to
+add to AndroidManifest.xml and where.
+
+
+STEP 4 — Install dependencies
+--------------------------------
+
+Open a terminal in VS Code (Terminal > New Terminal), then run:
+
+  cd D:\Flutter\potato_disease_app
+  flutter pub get
+
+This downloads the packages listed in pubspec.yaml
+(image_picker, onnxruntime, image).
+
+If this is the first time, it may take a minute or two.
+
+
+STEP 5 — Connect your phone
+------------------------------
+
+  1. On your Android phone: Settings > About Phone > tap
+     "Build Number" 7 times to enable Developer Options.
+  2. Settings > Developer Options > enable "USB Debugging".
+  3. Connect phone to PC via USB cable.
+  4. On the phone, tap "Allow" on the USB debugging popup.
+
+Verify it's detected:
+
+  flutter devices
+
+Your phone should appear in the list (not just Chrome/Edge/Windows).
+
+
+STEP 6 — Run the app
+-----------------------
+
+  cd D:\Flutter\potato_disease_app
+  flutter run
+
+This will take a few minutes the FIRST time (Gradle downloads
+build tools). Once built, the app installs and launches on
+your phone automatically.
+
+If multiple devices show up, flutter will ask you to pick one
+— choose your phone (not Chrome/Windows).
+
+
+STEP 7 — Use the app
+-----------------------
+
+  1. Tap "Capture" to take a photo with the camera, OR
+     "Gallery" to pick an existing photo.
+  2. The app resizes the image, runs the model, and shows:
+       - Disease name (predicted class)
+       - Confidence percentage
+       - Inference time in milliseconds
+       - Top-3 predictions with percentages
+
+
+TROUBLESHOOTING
+------------------
+
+* "flutter pub get" errors mentioning onnxruntime:
+    Make sure your minSdk in android/app/build.gradle is >= 21
+    (see ANDROID_SETUP.txt).
+
+* App crashes on launch / "asset not found":
+    Double-check pubspec.yaml indentation under "assets:" —
+    YAML is indentation-sensitive (2 spaces, not tabs).
+    Also confirm the .onnx file is actually inside the
+    assets folder with the EXACT filename
+    "potato_model_fp16.onnx" (case-sensitive).
+
+* Predictions seem wrong / random:
+    Check labels.txt order matches your training
+    dataset.classes order exactly:
+    Bacteria, Fungi, Nematode, Healthy, Phytopthora, Pest, Virus
+
+* Camera doesn't open:
+    Confirm the <uses-permission android:name=
+    "android.permission.CAMERA"/> line was added to
+    AndroidManifest.xml (Step 3), then run "flutter clean"
+    followed by "flutter run" again.
+
+* After any change to pubspec.yaml or AndroidManifest.xml:
+    Run "flutter clean" then "flutter run" again (full rebuild).
+
+
+FINAL FOLDER STRUCTURE (what it should look like)
+----------------------------------------------------
+
+D:\Flutter\potato_disease_app\
+  |-- lib\
+  |     |-- main.dart
+  |     |-- classifier.dart
+  |-- assets\
+  |     |-- potato_model_fp16.onnx
+  |     |-- labels.txt
+  |-- android\
+  |     |-- app\
+  |           |-- src\main\AndroidManifest.xml   (edited)
+  |-- pubspec.yaml   (replaced)

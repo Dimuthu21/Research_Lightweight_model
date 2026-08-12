@@ -1,0 +1,41 @@
+ANDROID PERMISSIONS — AndroidManifest.xml edit
+=================================================
+
+File location in your project (after `flutter create`):
+
+    D:\Flutter\potato_disease_app\android\app\src\main\AndroidManifest.xml
+
+Open it and add the camera permission line shown below.
+Add it INSIDE the <manifest> tag, ABOVE the <application> tag.
+
+-------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <application
+        android:label="potato_disease_app"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+        ...
+    </application>
+</manifest>
+-------------------------------------------------------------
+
+Only ADD the <uses-permission> line — do not remove anything
+that is already in the file. The rest of the file (application
+tag, activities, etc.) stays exactly as Flutter generated it.
+
+Also check minSdkVersion:
+
+File: D:\Flutter\potato_disease_app\android\app\build.gradle
+or    D:\Flutter\potato_disease_app\android\app\build.gradle.kts
+
+Find the line with "minSdk" or "minSdkVersion" and make sure
+it is at least 21 (onnxruntime requires this):
+
+    minSdk = 21
+
+(Flutter's default template already sets this to 21 or higher
+in recent versions, so this is usually just a check, not a change.)

@@ -1,0 +1,7 @@
+Bacteria
+Fungi
+Nematode
+Healthy
+Phytopthora
+Pest
+Virus
